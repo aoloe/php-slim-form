@@ -6,5 +6,9 @@
             <h1>Symfony Form Component Test</h1>
             {{ form_start(form) }}
                 {{ form_widget(form) }}
+                <div class="form-group">
+                    <label class="control-label required" for="form_extra">Extra field</label>
+                    <input id="form_extra" name="form[extra]" required="required" class="form-control" type="text">
+                </div>
             {{ form_end(form) }}
 {% endblock %}

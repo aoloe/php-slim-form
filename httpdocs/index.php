@@ -51,8 +51,8 @@ $container['view'] = function ($container) {
 
     $translator = new Translator('de', new MessageSelector());
     $translator->addLoader('xlf', new XliffFileLoader());
-    // $translator->addResource('xlf', VENDOR_FORM_DIR . '/Resources/translations/validators.en.xlf', 'en', 'validators');
-    // $translator->addResource('xlf', VENDOR_FORM_DIR . '/Resources/translations/validators.en.xlf', 'en', 'validators');
+    $translator->addResource('xlf', VENDOR_FORM_DIR . '/Resources/translations/validators.en.xlf', 'en', 'validators');
+    $translator->addResource('xlf', VENDOR_FORM_DIR . '/Resources/translations/validators.en.xlf', 'en', 'validators');
     $translator->addResource('xlf', VENDOR_VALIDATOR_DIR . '/Resources/translations/validators.en.xlf', 'en', 'validators');
     $translator->addResource('xlf', VENDOR_VALIDATOR_DIR . '/Resources/translations/validators.de.xlf', 'de', 'validators');
 
@@ -79,6 +79,7 @@ $container['view'] = function ($container) {
     );
     // echo($translator->trans('Firstname', [], 'validators'));
     echo('<pre>'.$translator->trans('Hello World!').'</pre>');
+    echo('<pre>'.$translator->trans('This form should not contain extra fields.').'</pre>');
     echo('<pre>'.$translator->transChoice('This value is too short. It should have {{ limit }} character or more.|This value is too short. It should have {{ limit }} characters or more.', 5, ['{{ limit }}' => 5], 'validators').'</pre>');
 
     // exit();
