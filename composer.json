@@ -1,0 +1,19 @@
+{
+    "authors": [
+        {
+            "name": "Alessandro Rimoldi",
+            "email": "rimoldi@ditoy.com",
+            "homepage": "http://www.ditoy.com",
+            "role": "Developer"
+        }
+    ],
+    "require" : {
+        "slim/slim" : "~3.4",
+        "slim/twig-view": "*",
+        "symfony/config": "*",
+        "symfony/twig-bridge": "*",
+        "symfony/form": "*",
+        "symfony/validator": "*",
+        "symfony/translation": "*"
+    }
+}

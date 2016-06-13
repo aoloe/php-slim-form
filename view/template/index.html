@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block javascript %}
+    <script src="script/home.js"></script>
+{% endblock %}
+{% block content %}
+            <h1>Symfony Form Component Test</h1>
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+            {{ form_end(form) }}
+{% endblock %}
