@@ -124,16 +124,16 @@ $app->any('/hello/{name}', function ($request, $response, $args) {
         ->add('message', TextareaType::class, array(
             'required' => true
         ))
-        ->add('save', SubmitType::class, array(
-            'attr'  => array(
-                'class' => 'btn-primary btn-lg',
-            )
-        ))
         ->add('firstname', TextType::class)
         ->add('lastname', TextType::class, array(
             'constraints' => array(
                 new NotBlank(),
                 new Length(array('min' => 4)),
+            )
+        ))
+        ->add('save', SubmitType::class, array(
+            'attr'  => array(
+                'class' => 'btn-primary btn-lg',
             )
         ))
         ->getForm();
