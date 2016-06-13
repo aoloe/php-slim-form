@@ -1,3 +1,3 @@
-# tanne-symfony-forms
+# slim / symfony / forms
 
-testing the symfony forms for the tanne app
+testing the symfony forms with slim
