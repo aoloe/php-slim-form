@@ -20,6 +20,28 @@ use Symfony\Bridge\Twig\Extension\TranslationExtension;
 
 use Symfony\Component\Translation\Loader\ArrayLoader;
 
+class TwigRendererRuntimeLoader implements \Twig\RuntimeLoader\RuntimeLoaderInterface {
+    /** @var TwigRenderer */
+    private $twigRenderer;
+
+    /**
+     * @param TwigRenderer $twigRenderer
+     */
+    public function __construct(TwigRenderer $twigRenderer)
+    {
+        $this->twigRenderer = $twigRenderer;
+    }
+
+    public function load($class)
+    {
+        if ($class === TwigRenderer::class) {
+            return $this->twigRenderer;
+        }
+
+        return null;
+    }
+}
+
 $configuration = [
     'settings' => [
         'displayErrorDetails' => true,
@@ -70,7 +92,7 @@ $container['translator'] = function ($container) {
         ),
         'de'
     );
-    
+
     return $translator;
 };
 
@@ -92,16 +114,16 @@ $container['view'] = function ($container) {
         VIEWS_DIR,
         VENDOR_TWIG_BRIDGE_DIR . '/Resources/views/Form',
     )));
-    
+
     $formEngine = new TwigRendererEngine(array(DEFAULT_FORM_THEME));
     $formEngine->setEnvironment($twig);
     $twig->addExtension(new TranslationExtension($container->translator));
     // bootstrap_3_layout.html.twig needs a trans filter... let's fake a translation engine
     // $filter = new Twig_SimpleFilter('trans', function ($string) {return $string;});
     // $twig->addFilter($filter);
-    $twig->addExtension(
-        new FormExtension(new TwigRenderer($formEngine))
-    );
+    $renderer = new TwigRenderer($formEngine);
+    $twig->addExtension(new FormExtension($renderer));
+    $twig->addRuntimeLoader(new TwigRendererRuntimeLoader($renderer));
 
     return $twig;
 };
