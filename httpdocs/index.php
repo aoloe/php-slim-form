@@ -20,28 +20,6 @@ use Symfony\Bridge\Twig\Extension\TranslationExtension;
 
 use Symfony\Component\Translation\Loader\ArrayLoader;
 
-class TwigRendererRuntimeLoader implements \Twig\RuntimeLoader\RuntimeLoaderInterface {
-    /** @var TwigRenderer */
-    private $twigRenderer;
-
-    /**
-     * @param TwigRenderer $twigRenderer
-     */
-    public function __construct(TwigRenderer $twigRenderer)
-    {
-        $this->twigRenderer = $twigRenderer;
-    }
-
-    public function load($class)
-    {
-        if ($class === TwigRenderer::class) {
-            return $this->twigRenderer;
-        }
-
-        return null;
-    }
-}
-
 $configuration = [
     'settings' => [
         'displayErrorDetails' => true,
@@ -123,7 +101,10 @@ $container['view'] = function ($container) {
     // $twig->addFilter($filter);
     $renderer = new TwigRenderer($formEngine);
     $twig->addExtension(new FormExtension($renderer));
-    $twig->addRuntimeLoader(new TwigRendererRuntimeLoader($renderer));
+
+    $container[TwigRenderer::class] = $renderer;
+    $runtimeLoader = new \Twig\RuntimeLoader\ContainerRuntimeLoader($container);
+    $twig->addRuntimeLoader($runtimeLoader);
 
     return $twig;
 };
