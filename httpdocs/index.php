@@ -70,7 +70,7 @@ $container['translator'] = function ($container) {
         ),
         'de'
     );
-    
+
     return $translator;
 };
 
@@ -92,16 +92,19 @@ $container['view'] = function ($container) {
         VIEWS_DIR,
         VENDOR_TWIG_BRIDGE_DIR . '/Resources/views/Form',
     )));
-    
+
     $formEngine = new TwigRendererEngine(array(DEFAULT_FORM_THEME));
     $formEngine->setEnvironment($twig);
     $twig->addExtension(new TranslationExtension($container->translator));
     // bootstrap_3_layout.html.twig needs a trans filter... let's fake a translation engine
     // $filter = new Twig_SimpleFilter('trans', function ($string) {return $string;});
     // $twig->addFilter($filter);
-    $twig->addExtension(
-        new FormExtension(new TwigRenderer($formEngine))
-    );
+    $renderer = new TwigRenderer($formEngine);
+    $twig->addExtension(new FormExtension($renderer));
+
+    $container[TwigRenderer::class] = $renderer;
+    $runtimeLoader = new \Twig\RuntimeLoader\ContainerRuntimeLoader($container);
+    $twig->addRuntimeLoader($runtimeLoader);
 
     return $twig;
 };
