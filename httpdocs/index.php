@@ -102,7 +102,13 @@ $container['view'] = function ($container) {
     $twig->addExtension(
         new FormExtension(new TwigRenderer($formEngine))
     );
-
+    
+    $twig->addRuntimeLoader(new \Twig_FactoryRuntimeLoader(array(
+        TwigRenderer::class => function () use ($formEngine) {
+            return new TwigRenderer($formEngine);
+        },
+    )));
+    
     return $twig;
 };
 
